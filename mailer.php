@@ -74,12 +74,15 @@ try {
         $mail->addBCC($bcc);
     }
     //Attachments
+    if (!empty($fileTempName)) { //checks to see if a file was attatched
     $mail->addAttachment($path);         // Add attachments
+}
     //Content
     $mail->isHTML(true);                // Set email format to HTML
+    $mail->CharSet = "text/plain; charset=UTF-8;";
     $mail->Subject = $subjectLine;
     $mail->Body    = $message;
-
+    $mail->AltBody  =  strip_tags($message);    // This automatically sets the email to multipart/alternative. This body can be read by mail clients that do not have HTML email capability such as mutt.
     // Send Mail using values
     if ($fileUploaded == 2) {
         //dont send message
@@ -175,7 +178,7 @@ if ($fileUploaded == 2){
                         </tr>
                         <tr>
                             <td>To: </td>
-                            <td><?php echo $toEmail ?></td>
+                            <td><?php echo "&#8220;" . $toEmail . "&#8221;" . " &#60;" . $toEmail . "&#62;" ?></td>
                         </tr>
                         <?php
                             // Show cc if there is a value
